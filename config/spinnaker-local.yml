@@ -245,6 +245,7 @@ services:
     enabled: false
 
   clouddriver:
+    enabled: false
     aws:
       udf:
         # Controls whether UserDataProviders are used to populate user data of
@@ -270,6 +271,7 @@ services:
       enabled: false
 
   rosco:
+
     # You need to provide the fully-qualified path to the directory containing
     # the packer templates.
     # They typically live in rosco's config/packer directory.

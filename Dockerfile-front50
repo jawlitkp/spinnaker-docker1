@@ -1,0 +1,3 @@
+FROM quay.io/spinnaker/front50:master
+COPY config /opt/spinnaker/config
+VOLUME "/opt/spinnaker/config"

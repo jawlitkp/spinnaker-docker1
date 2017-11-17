@@ -13,13 +13,16 @@ services:
     ports:
       - "6379"
   deck:
+    build:
+      context: .
+      dockerfile: Dockerfile
     deploy:
       replicas: 1
       restart_policy:
         condition: any
     environment:
       - "API_HOST=http://gate"
-    image: projectethan007/spinnker-deck:latest
+    #image: projectethan007/spinnker-deck:latest
     networks:
       - my-network
     ports:
@@ -27,19 +30,53 @@ services:
     volumes:
       - "./config:/opt/spinnaker/config"
   gate:
+    build:
+      context: .
+      dockerfile: Dockerfile-gate
     deploy:
       replicas: 1
       restart_policy:
         condition: any
-    image: projectethan007/spinnker-gate:latest
+    #image: projectethan007/spinnker-gate:latest
     networks:
       - my-network
     ports:
       - "8084:8084"
     volumes:
       - "./config:/opt/spinnaker/config"
+
+  orca:
+    build:
+      context: .
+      dockerfile: Dockerfile-orca
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    networks:
+      - my-network
+    ports:
+      - "8083:8083"
+    volumes:
+      - "./config:/opt/spinnaker/config"
       
+  front50:
+    build:
+      context: .
+      dockerfile: Dockerfile-front50
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    environment:
+      - "JAVA_OPTS=-javaagent:/opt/front50/lib/jamm-0.2.5.jar"
+    networks:
+      - my-network
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./config:/opt/spinnaker/config"
+
 networks:
   my-network:
     driver: overlay
-    
