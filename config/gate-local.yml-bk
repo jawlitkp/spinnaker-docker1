@@ -1,0 +1,4 @@
+ldap:
+  enabled: true
+  url: ldap://ldap:389/dc=ldap,dc=example,dc=com
+  userDnPattern: cn={0},ou=people

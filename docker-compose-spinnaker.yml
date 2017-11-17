@@ -1,0 +1,45 @@
+---
+version: "3"
+services:
+  redis:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    command: "redis-server --appendonly yes"
+    image: "redis"
+    networks:
+      - my-network
+    ports:
+      - "6379"
+  deck:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    environment:
+      - "API_HOST=http://gate"
+    image: projectethan007/spinnker-deck:latest
+    networks:
+      - my-network
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./config:/opt/spinnaker/config"
+  gate:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    image: projectethan007/spinnker-gate:latest
+    networks:
+      - my-network
+    ports:
+      - "8084:8084"
+    volumes:
+      - "./config:/opt/spinnaker/config"
+      
+networks:
+  my-network:
+    driver: overlay
+    
