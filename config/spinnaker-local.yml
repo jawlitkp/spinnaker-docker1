@@ -284,10 +284,13 @@ services:
     enabled: false
 
   front50:
+    host: front50
+    port: 8080
+    baseUrl: ${services.default.protocol}://${services.front50.host}:${services.front50.port}
     cassandra:
       enabled: false
     redis:
-      enabled: false
+      enabled: true
 
     # To use a cloud storage bucket on Amazon S3 or Google Cloud Storage instead
     # of cassandra, set the storage_bucket, disable cassandra, and enable one of
